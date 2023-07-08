@@ -32,9 +32,7 @@ namespace oxid_ai
         }
         public void CalculateOxidationNumber() {
             // 미지수랑 미지수랑 커넥트 되면 전기음성도가 주어지지 않으면 못품
-            // 미지수 계산은 최종적으로 해야함
-
-            //산소 -2, 수소 1, 플루오린 1 정하고 시작.
+            Atoms = Atoms.Select((atom) => { atom.InitOxidation(); return atom; }).ToList();
         }
 
         public void Display()

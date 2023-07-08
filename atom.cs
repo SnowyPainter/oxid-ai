@@ -29,11 +29,7 @@ namespace oxid_ai
             Period = (AtomicNumber <= 2) ? 1 : ((AtomicNumber <= 10) ? 2 : ((AtomicNumber <= 18) ? 3 : 4));
             Group = calculateGroupFromNumber();
         }
-        private int calculateValenceElectrons(int g)
-        {
-            int[] valenceElectrons = { 1, 0, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 1, 2, 3, 2, 1, 0 };
-            return valenceElectrons[g - 1];
-        }
+
         /// this atom must be center atom. atom2 is others.
         public Atom(string symbol, int atomicNumber, double atomicWeight, double electronegativity)
         {
@@ -42,14 +38,27 @@ namespace oxid_ai
             AtomicWeight = atomicWeight;
             ElectroneGravity = electronegativity;
             calculatePeriodAndGroup();
-            int valenceElectrons = calculateValenceElectrons(Group);
-            int sign = (Group <= 9) ? 1 : -1;
-            OxidationNumber = valenceElectrons * sign;
+            InitOxidation();
+        }
+
+        /// Called before molecule calculate oxidation numbers for all.
+        public void InitOxidation() {
+            // fixed data
+            if(Symbol=="O") OxidationNumber = -2;
+            else if(Symbol=="F") OxidationNumber = -1;
+            else if(Symbol=="H") OxidationNumber = 1;
+            // left others.
         }
         public void Connect(Atom atom2)
         {
             ConnectedAtoms.Add(atom2);
-            OxidationNumber -= atom2.OxidationNumber;
+            atom2.ConnectedAtoms.Add(this);
+            if(ElectroneGravity > atom2.ElectroneGravity)
+                OxidationNumber += atom2.OxidationNumber;
+            else if(ElectroneGravity < atom2.ElectroneGravity)
+                OxidationNumber -= atom2.OxidationNumber;
+            else
+                OxidationNumber = 0;
         }
         public double DifferenceOfELectroneGravity(Atom atom) => (this.ElectroneGravity - atom.ElectroneGravity);
         public void Display()

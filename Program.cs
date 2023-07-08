@@ -7,17 +7,19 @@ namespace oxid_ai
     {
         public static void Main()
         {
-            Atom hydrogen1 = new Atom("H", 1, 1.008, 2.1);
-            Atom hydrogen2 = new Atom("H", 1, 1.008, 2.1);
-            Atom oxygen = new Atom("O", 8, 15.999, 3.5);
+            Atom a = new Atom("C", 6, 6, 2.5);
+            Atom a2 = new Atom("O", 8, 16, 3.5);
+            Atom a3 = new Atom("O", 8, 16, 3.5);
+            Atom a4 = new Atom("H", 1, 1, 2.1);
+            Atom a5 = new Atom("H", 1, 1, 2.1);
 
             Molecule water = new Molecule();
-            water.AddAtom(hydrogen1);
-            water.AddAtom(hydrogen2);
-            water.AddAtom(oxygen);
+            water.AddAtom(a2);
+            water.AddAtom(a4);
+            water.AddAtom(a5);
 
-            water.ConnectAtoms(oxygen, hydrogen1);
-            water.ConnectAtoms(oxygen, hydrogen2);
+            water.ConnectAtoms(a2, a5);
+            water.ConnectAtoms(a2, a4);
 
             water.CalculateSharedElectronPairs();
             water.CalculateOxidationNumber();
