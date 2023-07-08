@@ -30,20 +30,32 @@ namespace oxid_ai
                 atom.SharedElectronPairs = atom.ConnectedAtoms.Count;
             }
         }
+        public void CalculateOxidationNumber() {
+            // 미지수랑 미지수랑 커넥트 되면 전기음성도가 주어지지 않으면 못품
+            // 미지수 계산은 최종적으로 해야함
 
-        public override bool Equals(object? obj)
-        {
-            return base.Equals(obj);
+            //산소 -2, 수소 1, 플루오린 1 정하고 시작.
         }
 
-        public override int GetHashCode()
+        public void Display()
         {
-            return base.GetHashCode();
+            foreach (var atom in Atoms)
+            {
+                atom.Display();
+                Console.WriteLine();
+            }
         }
-
+        /// return formula
         public override string? ToString()
         {
-            return base.ToString();
+            string f = "";
+            foreach (var atom in Atoms)
+            {
+                f += atom.Symbol;
+            }
+            ChemicalFormulaConverter converter = new ChemicalFormulaConverter();
+            string normalizedFormula = converter.ConvertToNormalizedForm(f);
+            return normalizedFormula;
         }
     }
 }
